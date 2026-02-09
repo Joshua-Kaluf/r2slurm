@@ -1,0 +1,27 @@
+# RStudio / R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# MacOS / system files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tar.gz
+*.Rcheck/
+
+# Package vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# Temporary files
+*.Rout
+*.Rout.save
+*.Rhistory
+*.RData
+*.Rproj.user/
+
+# Logs
+logs/
