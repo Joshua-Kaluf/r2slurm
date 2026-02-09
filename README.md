@@ -1,8 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
 
 # r2slurm
 
@@ -25,54 +20,54 @@ Slurm-managed clusters.
 
 ## Installation
 
-### Install devtools if you don't have it
+1. Install devtools if you don't have it
 
-install.packages("devtools")
+`install.packages("devtools")`
 
-### Install r2slurm from GitHub
+2. Install r2slurm from GitHub
 
-devtools::install_github("Joshua-Kaluf/r2slurm")
+`devtools::install_github("Joshua-Kaluf/r2slurm")`
 
 ------------------------------------------------------------------------
 
 ## Usage
 
-library(r2slurm)
+`library(r2slurm)`
 
 ### Create a basic job
 
-```{r}     
-job \<- slurm_job("echo Hello World") %\>% set_mem("16G") %\>%
-set_time("01:00:00") %\>% set_job_name("hello_job")
+```
+job <- slurm_job("echo Hello World") %>%
+    set_mem("16G") %>%
+    set_time("01:00:00") %>%
+    set_job_name("hello_job")
 ```
 
 ### Preview the SBATCH script
 
-```{r}
-render_script(job)
-```
+`render_script(job)`
 
 ### Write to disk
 
-```{r}
-write_slurm_script(job, "hello_job.sh")
-```
+`write_slurm_script(job, "hello_job.sh")`
 
 ### Submit to Slurm (dry-run)
 
-sbatch(job, dry_run = TRUE)
+`sbatch(job, dry_run = TRUE)`
 
-> Submit for real `sbatch(job)`
+### Submit for real 
+
+`sbatch(job)`
 
 ------------------------------------------------------------------------
 
 ## Chainable Setters
 
--   set_mem(job, "16G")
--   set_time(job, "02:00:00")
--   set_cpus(job, 4)
--   set_partition(job, "short")
--   set_job_name(job, "my_job")
+-   `set_mem(job, "16G")`
+-   `set_time(job, "02:00:00")`
+-   `set_cpus(job, 4)`
+-   `set_partition(job, "short")`
+-   `set_job_name(job, "my_job")`
 
 ------------------------------------------------------------------------
 
@@ -86,10 +81,15 @@ MIT License — see LICENSE for details.
 
 # Create a Slurm job to run a Python script
 
-job \<- slurm_job(c("module load python", "python analysis.py")) %\>%
-set_mem("32G") %\>% set_time("04:00:00") %\>% set_cpus(8) %\>%
-set_partition("long") %\>% set_job_name("python_analysis")
+job <- slurm_job(c("module load python", "python analysis.py")) %>%
+    set_mem("32G") %>%
+    set_time("04:00:00") %>%
+    set_cpus(8) %>%
+    set_partition("long") %>%
+    set_job_name("python_analysis")
 
 # Inspect and submit
 
-render_script(job) sbatch(job, dry_run = TRUE)
+`render_script(job)`
+
+`sbatch(job, dry_run = TRUE)`
