@@ -48,7 +48,7 @@ NULL
 #'
 #' @export
 slurm_job <- function(
-    body,
+    body = NULL,
     job_name = NULL,
     partition = NULL,
     time = NULL,
@@ -61,15 +61,14 @@ slurm_job <- function(
     validate = FALSE,
     ...
 ) {
-  if (missing(body)){
-    stop("`body` is required")
-  }
-
-  if (is.character(body)) {
-    body <- as.character(body)
-  } else {
-    stop("`body` must be a character vector of shell commands")
-  }
+  # Allow body to be NULL, character, or a function returning character
+  if (is.null(body)) {
+    body <- character()
+  } else if (is.function(body)) {
+    body <- body()
+  } 
+  
+  body <- as.character(body)
 
   opts <- list(
     job_name = job_name,
