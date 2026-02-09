@@ -79,14 +79,16 @@ MIT License — see LICENSE for details.
 
 ## Example Workflow
 
-# Create a Slurm job to run a Python script
+### Create a Slurm job to run a Python script
 
+```
 job <- slurm_job(c("module load python", "python analysis.py")) %>%
     set_mem("32G") %>%
     set_time("04:00:00") %>%
     set_cpus(8) %>%
     set_partition("long") %>%
     set_job_name("python_analysis")
+```
 
 # Inspect and submit
 
