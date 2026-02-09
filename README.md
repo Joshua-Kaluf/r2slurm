@@ -68,6 +68,7 @@ job <- slurm_job("echo Hello World") %>%
 -   `set_cpus(job, 4)`
 -   `set_partition(job, "short")`
 -   `set_job_name(job, "my_job")`
+-   `add_body(job, "module spider Python")`
 
 ------------------------------------------------------------------------
 
@@ -87,7 +88,8 @@ job <- slurm_job(c("module load python", "python analysis.py")) %>%
     set_time("04:00:00") %>%
     set_cpus(8) %>%
     set_partition("long") %>%
-    set_job_name("python_analysis")
+    set_job_name("python_analysis") %>%
+    add_body("python analysis2.py")
 ```
 
 # Inspect and submit
