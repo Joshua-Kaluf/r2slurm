@@ -20,8 +20,7 @@ r2slurm provides a chainable, user-friendly interface to create, render, and sub
 install.packages("devtools")
 
 # Install r2slurm from GitHub
-devtools::install_github("yourusername/r2slurm")
-# Replace 'yourusername' with your GitHub username
+devtools::install_github("Joshua-Kaluf/r2slurm")
 
 ---
 
