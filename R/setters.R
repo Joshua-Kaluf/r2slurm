@@ -162,3 +162,60 @@ add_body <- function(job, code, position = "end") {
   
   job
 }
+
+#' Set arbitrary Slurm options on a job
+#'
+#' Allows setting one or more Slurm options that are not covered by
+#' dedicated setter functions (e.g. \code{mail_user}, \code{mail_type},
+#' \code{qos}, cluster-specific flags).
+#'
+#' Option names should be provided using underscore-separated R-style
+#' names (e.g. \code{mail_user}), which will automatically be translated
+#' to SBATCH flags (e.g. \code{--mail-user}) when rendering.
+#'
+#' This function is fully chainable and intended as an advanced or
+#' escape-hatch interface.
+#'
+#' @param job A \code{slurm_job} object.
+#' @param ... Named Slurm options to set.
+#' @param .list An optional named list of Slurm options.
+#'
+#' @return Updated \code{slurm_job} object.
+#'
+#' @examples
+#' # Set mail notifications
+#' job <- slurm_job("echo Hello") %>%
+#'   set_opt(mail_user = "me@lab.edu", mail_type = "END,FAIL")
+#'
+#' # Set a cluster-specific option
+#' job <- slurm_job("echo Custom") %>%
+#'   set_opt(qos = "high")
+#'
+#' # Supply options via a list
+#' opts <- list(
+#'   mail_user = "me@lab.edu",
+#'   mail_type = "BEGIN,END"
+#' )
+#'
+#' job <- slurm_job("echo From list") %>%
+#'   set_opt(.list = opts)
+#'
+#' @export
+set_opt <- function(job, ..., .list = NULL) {
+  if (!inherits(job, "slurm_job")) {
+    stop("Expected a slurm_job object")
+  }
+  
+  opts <- c(list(...), .list)
+  
+  if (length(opts) == 0) {
+    return(job)
+  }
+  
+  for (nm in names(opts)) {
+    job$options[[nm]] <- opts[[nm]]
+  }
+  
+  job
+}
+
