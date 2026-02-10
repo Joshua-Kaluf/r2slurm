@@ -57,7 +57,7 @@ slurm_job <- function(
     nodes = NULL,
     output = "logs/%x_%j.out",
     error  = "logs/%x_%j.err",
-    shebang = "#!/bin/bash",
+    shebang = "#!/bin/bash",  # discard later
     validate = FALSE,
     ...
 ) {

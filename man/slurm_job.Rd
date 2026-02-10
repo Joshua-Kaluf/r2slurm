@@ -5,7 +5,7 @@
 \title{Create a Slurm job object}
 \usage{
 slurm_job(
-  body,
+  body = NULL,
   job_name = NULL,
   partition = NULL,
   time = NULL,
