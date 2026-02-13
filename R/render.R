@@ -47,7 +47,7 @@ slurm_flag <- function(name) {
 #' Converts a named list of Slurm options into \code{#SBATCH} directives
 #' suitable for inclusion at the top of a submission script.
 #'
-#' @param opts Named list of Slurm options (as used in a \code{slurm_job} object).
+#' @param job \code{slurm_job} object.
 #'
 #' @return Character vector of \code{#SBATCH} lines.
 #'
