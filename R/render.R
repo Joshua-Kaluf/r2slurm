@@ -55,7 +55,9 @@ slurm_flag <- function(name) {
 #' render_sbatch(list(job_name = "test", cpus = 4, mem = "8G"))
 #'
 #' @export
-render_sbatch <- function(opts) {
+render_sbatch <- function(job) {
+  opts <- job$options
+  
   lines <- character()
 
   for (name in sort(names(opts))) {
@@ -111,7 +113,7 @@ render_script <- function(job) {
 
   c(
     job$shebang,
-    render_sbatch(job$options),
+    render_sbatch(job),
     "",
     "set -euo pipefail",
     "",
