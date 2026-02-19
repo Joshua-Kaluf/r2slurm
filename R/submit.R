@@ -2,6 +2,7 @@
 # Writing to disk
 # ------------------------------------------------------------
 
+
 #' Write a Slurm submission script to disk
 #'
 #' Converts a \code{slurm_job} object into a bash script and writes

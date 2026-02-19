@@ -4,10 +4,10 @@
 \alias{render_sbatch}
 \title{Render SBATCH header lines}
 \usage{
-render_sbatch(opts)
+render_sbatch(job)
 }
 \arguments{
-\item{opts}{Named list of Slurm options (as used in a \code{slurm_job} object).}
+\item{job}{\code{slurm_job} object.}
 }
 \value{
 Character vector of \code{#SBATCH} lines.
