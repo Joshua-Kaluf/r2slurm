@@ -24,32 +24,33 @@
 #'
 #' @export
 print.slurm_job <- function(x, ...) {
-  cat("<slurm_job>\n")
-
+  cat("<slurm_job>\n\n")
+  
+  # SBATCH options
   opts <- x$options
   if (length(opts) > 0) {
     cat("SBATCH options:\n")
     for (name in names(opts)) {
       value <- opts[[name]]
       if (!is.null(value)) {
-        # Use the same flag mapping as render_sbatch()
-        flag <- slurm_flag(name)
+        flag <- slurm_flag(name)  # uses same mapping as render_sbatch()
         cat("  ", flag, "=", value, "\n", sep = "")
       }
     }
   } else {
     cat("SBATCH options: <none>\n")
   }
-
+  
+  # Full body
   cat("\nBody:\n")
-  body_lines <- strsplit(x$body, "\n")[[1]]
-  preview <- head(body_lines, 5)
-
-  for (line in preview) {
-    cat("  ", line, "\n", sep = "")
+  if (length(x$body) == 0) {
+    cat("  <empty>\n")
+  } else {
+    for (line in x$body) {
+      cat("  ", line, "\n", sep = "")
+    }
   }
-
-  if (length(body_lines) > 5) cat("  ...\n")
-
+  
   invisible(x)
 }
+
