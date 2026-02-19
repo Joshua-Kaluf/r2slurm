@@ -127,41 +127,38 @@ set_job_name <- function(job, name) {
 add_body <- function(job, code, position = "end") {
   if (!inherits(job, "slurm_job")) stop("Expected a slurm_job object")
   
-  # Ignore NULL input
-  if (is.null(code)) return(job)
+  # Convert functions to character if necessary
+  if (is.function(code)) code <- code()
   
-  # If code is a function, call it
-  if (is.function(code)) {
-    code <- code()
-  }
+  # Ignore NULL or length-0 input
+  if (is.null(code) || length(code) == 0) return(job)
   
   # Ensure code is character
-  if (!is.character(code)) {
-    stop("`code` must be a character vector, string, or function returning character")
-  }
-  
   code <- as.character(code)
   
+  # Append based on position
   if (is.character(position)) {
     if (position == "end") {
       job$body <- c(job$body, code)
     } else if (position == "start") {
       job$body <- c(code, job$body)
     } else {
-      stop('position must be "start", "end", or an integer')
+      stop('position must be "start" or "end" or integer')
     }
   } else if (is.numeric(position)) {
     pos <- as.integer(position)
-    if (pos < 1 || pos > length(job$body) + 1) {
-      stop("Numeric position out of range")
-    }
+    if (pos < 1 || pos > length(job$body) + 1) stop("Numeric position out of range")
     job$body <- append(job$body, code, after = pos - 1)
   } else {
     stop("position must be 'start', 'end', or numeric")
   }
   
+  # Ensure class is preserved
+  class(job) <- c("slurm_job", class(job)[class(job) != "slurm_job"])
+  
   job
 }
+
 
 #' Set arbitrary Slurm options on a job
 #'
