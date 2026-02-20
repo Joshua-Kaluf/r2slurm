@@ -1,6 +1,5 @@
-# r2slurm
-
-r2slurm provides a chainable, user-friendly interface to create, render, and submit Slurm jobs from R. Perfect for labs or projects that rely on Slurm-managed clusters.
+# r2slurm — A minimal R package for submitting scripts to SLURM (no black-box behavior)
+*Many bioinformaticians use R scripts and loops to submit SLURM jobs; this lightweight wrapper makes it easier.*
 
 ------------------------------------------------------------------------
 
