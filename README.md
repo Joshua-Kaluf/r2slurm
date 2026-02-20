@@ -36,7 +36,11 @@ devtools::install_github("Joshua-Kaluf/r2slurm")
 library(r2slurm)
 ```
 
-### Create a basic job
+### Create a Basic Job
+
+`r2slurm` provides two ways to create a simple Slurm job.  
+
+#### Method 1: Chainable setters
 
 ```
 job <- slurm_job("echo Hello World") %>%
@@ -44,6 +48,19 @@ job <- slurm_job("echo Hello World") %>%
     set_time("01:00:00") %>%
     set_job_name("hello_job")
 ```
+
+#### Method 2: Direct arguments in slurm_job
+
+```
+job <- slurm_job(
+  body     = "echo Hello World",
+  mem      = "16G",
+  time     = "01:00:00",
+  job_name = "hello_job"
+)
+```
+
+Both methods create an equivalent `slurm_job` object ready for inspection, rendering, or submission.
 
 ### Preview the SBATCH script
 
@@ -59,9 +76,14 @@ write_slurm_script(job, "hello_job.sh")
 
 ### Submit to Slurm (dry-run)
 
+You can preview a job submission without actually sending it by using `dry_run = TRUE`.  
+
 ```
 sbatch(job, dry_run = TRUE)
 ```
+
+**Optional:** You can also specify the `script` parameter to save the generated `.sh` file.  
+If you don’t set `script`, it defaults to a temporary file via `tempfile()`.
 
 ### Submit for real
 
@@ -69,16 +91,31 @@ sbatch(job, dry_run = TRUE)
 sbatch(job)
 ```
 
+Similarly, you can provide `script = "my_job.sh"` if you want to save the submission script when submitting for real.
+
 ------------------------------------------------------------------------
 
 ## Chainable Setters
 
--   `set_mem(job, "16G")`
--   `set_time(job, "02:00:00")`
--   `set_cpus(job, 4)`
--   `set_partition(job, "short")`
--   `set_job_name(job, "my_job")`
--   `add_body(job, "module spider Python")`
+- `set_mem(job, "16G")`
+- `set_time(job, "02:00:00")`
+- `set_cpus(job, 4)`
+- `set_partition(job, "short")`
+- `set_job_name(job, "my_job")`
+- `add_body(job, "module spider Python")`
+
+### Advanced Options
+
+For advanced users, `set_opt` allows passing named parameters **not currently exposed by the standard r2slurm setters**.  
+
+- Underscores in the parameter names are automatically converted to dashes in the generated SBATCH script.  
+  - Example: `mail_user = "me@lab.edu"` becomes `--mail-user=me@lab.edu` in the script.
+
+```
+job <- set_opt(job, mail_user = "me@lab.edu", mail_type = "END,FAIL")
+```
+
+This allows customization of Slurm directives beyond the standard setters.
 
 ------------------------------------------------------------------------
 
