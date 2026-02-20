@@ -11,6 +11,7 @@ r2slurm provides a chainable, user-friendly interface to create, render, and sub
 -   Render jobs into SBATCH scripts ready for submission.
 -   Submit jobs directly to Slurm via `sbatch`.
 -   Preview scripts without submitting using dry-run mode.
+-   All functions are individually well-documented with usage examples.
 
 ------------------------------------------------------------------------
 
