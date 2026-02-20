@@ -18,13 +18,13 @@
 
 1.  Install devtools if you don't have it
 
-```
+```r
 install.packages("devtools")
 ```
 
 2.  Install r2slurm from GitHub
 
-```
+```r
 devtools::install_github("Joshua-Kaluf/r2slurm")
 ```
 
@@ -32,7 +32,7 @@ devtools::install_github("Joshua-Kaluf/r2slurm")
 
 ## Usage
 
-```
+```r
 library(r2slurm)
 ```
 
@@ -42,7 +42,7 @@ library(r2slurm)
 
 #### Method 1: Chainable setters
 
-```
+```r
 job <- slurm_job("echo Hello World") %>%
     set_mem("16G") %>%
     set_time("01:00:00") %>%
@@ -51,7 +51,7 @@ job <- slurm_job("echo Hello World") %>%
 
 #### Method 2: Direct arguments in slurm_job
 
-```
+```r
 job <- slurm_job(
   body     = "echo Hello World",
   mem      = "16G",
@@ -64,13 +64,13 @@ Both methods create an equivalent `slurm_job` object ready for inspection, rende
 
 ### Preview the SBATCH script
 
-```
+```r
 render_script(job)
 ```
 
 ### Write to disk
 
-```
+```r
 write_slurm_script(job, "hello_job.sh")
 ```
 
@@ -78,7 +78,7 @@ write_slurm_script(job, "hello_job.sh")
 
 You can preview a job submission without actually sending it by using `dry_run = TRUE`.  
 
-```
+```r
 sbatch(job, dry_run = TRUE)
 ```
 
@@ -87,7 +87,7 @@ If you don’t set `script`, it defaults to a temporary file via `tempfile()`.
 
 ### Submit for real
 
-```
+```r
 sbatch(job)
 ```
 
@@ -111,7 +111,7 @@ For advanced users, `set_opt` allows passing named parameters **not currently ex
 - Underscores in the parameter names are automatically converted to dashes in the generated SBATCH script.  
   - Example: `mail_user = "me@lab.edu"` becomes `--mail-user=me@lab.edu` in the script.
 
-```
+```r
 job <- set_opt(job, mail_user = "me@lab.edu", mail_type = "END,FAIL")
 ```
 
@@ -129,7 +129,7 @@ MIT License — see LICENSE for details.
 
 ### Create a Slurm job to run a Python script
 
-```
+```r
 job <- slurm_job(c("module load python", "python analysis.py")) %>%
     set_mem("32G") %>%
     set_time("04:00:00") %>%
@@ -140,11 +140,11 @@ job <- slurm_job(c("module load python", "python analysis.py")) %>%
 
 # Inspect and submit
 
-```
+```r
 render_script(job)
 ```
 
-```
+```r
 sbatch(job, dry_run = TRUE)
 ```
 
@@ -156,7 +156,7 @@ One common use case is wanting to **alter the command for a SLURM submission bas
 
 #### 1. Initialize a template job
 
-```
+```r
 fastqc_job <- slurm_job(
   partition  = "normal",
   ntasks     = 1,
@@ -174,7 +174,7 @@ fastqc_job <- slurm_job(
 
 #### 2. Generate multiple jobs from the template
 
-```
+```r
 jobs <- list()
 files <- c("sample1.fastq.gz", "sample2.fastq.gz", "sample3.fastq.gz")
 
@@ -187,7 +187,7 @@ for (input_file in files) {
 
 #### 3. Submit all jobs to SLURM
 
-```
+```r
 for (job in jobs) {
   sbatch(job)
 }
