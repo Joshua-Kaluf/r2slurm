@@ -12,7 +12,6 @@ NULL
 #' Validation is always performed when rendering or submitting a job.
 #' Setting `validate = TRUE` performs an additional check at construction time.
 #'
-#' @param body Character vector of shell commands to execute.
 #' @param job_name Name of the Slurm job.
 #' @param partition Slurm partition to submit to.
 #' @param time Walltime limit (e.g. "02:00:00").
@@ -23,6 +22,7 @@ NULL
 #' @param error Path for stderr log file.
 #' @param shebang Shebang line for the script (default "#!/bin/bash").
 #' @param validate Whether calling slurm_job should immediately test validity of options.
+#' @param body Character vector of shell commands to execute.
 #' @param ... Any additional Slurm options not explicitly listed.
 #'
 #' @return A \code{slurm_job} object.
@@ -48,7 +48,6 @@ NULL
 #'
 #' @export
 slurm_job <- function(
-    body = NULL,
     job_name = NULL,
     partition = NULL,
     time = NULL,
@@ -59,6 +58,7 @@ slurm_job <- function(
     error  = "%x_%j.err",
     shebang = "#!/bin/bash",  # discard later
     validate = FALSE,
+    body = NULL,
     ...
 ) {
   # Allow body to be NULL, character, or a function returning character
